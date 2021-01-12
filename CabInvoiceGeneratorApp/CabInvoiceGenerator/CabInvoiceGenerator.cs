@@ -13,6 +13,7 @@ namespace CabInvoiceGeneratorApp.CabInvoiceGenerator
         private static readonly double COST_PER_MINUTE = 1.0;
         private static readonly double MINIMUM_FARE = 5.0;
         private double cabFare = 0.0;
+        private RideRepository rideRepository = new RideRepository();
 
         /// <summary>
         /// Function to Calculate Total Fare.
@@ -35,6 +36,16 @@ namespace CabInvoiceGeneratorApp.CabInvoiceGenerator
             }
 
             return new InvoiceSummary(totalRideFare, rides.Length);
+        }
+
+        public void MapRidesToUser(string userID, Ride[] rides)
+        {
+            this.rideRepository.AddCabRides(userID, rides);
+        }
+
+        public InvoiceSummary GetInvoiceSummary(string userID)
+        {
+            return this.GetMultipleRideFare(this.rideRepository.GetCabRides(userID));
         }
     }
 }
