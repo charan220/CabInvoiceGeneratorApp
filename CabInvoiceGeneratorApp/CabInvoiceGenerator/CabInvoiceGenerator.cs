@@ -9,9 +9,9 @@ namespace CabInvoiceGeneratorApp.CabInvoiceGenerator
 {
     public class CabInvoiceGenerator
     {
-        private static double COST_PER_KILOMETER = 10.0;
-        private static double COST_PER_MINUTE = 1.0;
-        private static double MINIMUM_FARE = 5.0;
+        private static readonly double COST_PER_KILOMETER = 10.0;
+        private static readonly double COST_PER_MINUTE = 1.0;
+        private static readonly double MINIMUM_FARE = 5.0;
         private double cabFare = 0.0;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace CabInvoiceGeneratorApp.CabInvoiceGenerator
             return Math.Max(this.cabFare, MINIMUM_FARE);
         }
 
-        public double GetMultipleRideFare(Ride[] rides)
+        public InvoiceSummary GetMultipleRideFare(Ride[] rides)
         {
             double totalRideFare = 0.0;
             foreach (Ride ride in rides)
@@ -34,7 +34,7 @@ namespace CabInvoiceGeneratorApp.CabInvoiceGenerator
                 totalRideFare += this.CalculateFare(ride.rideDistance, ride.rideTime);
             }
 
-            return totalRideFare / rides.Length;
+            return new InvoiceSummary(totalRideFare, rides.Length);
         }
     }
 }
